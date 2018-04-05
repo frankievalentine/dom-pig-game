@@ -12,7 +12,7 @@ var scores, roundScore, activePlayer;
 
 scores = [0, 0];
 roundScore = 0;
-activePlayer = 1;
+activePlayer = 0;
 
 // change display property in CSS on dice class on page load
 document.querySelector('.dice').style.display = 'none';
@@ -31,12 +31,28 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
     // change the source of the HTML img element with class dice
     diceDOM.src = 'images/dice-' + dice + '.png';
     // Update round score IF the rolled number was NOT a 1
+    // !== does not perform type coercion where != does
+    // like === does not perform type coercion and == does
+    if (dice !== 1) {
+        // Add score
+        // roundScore = roundScore + dice;
+        roundScore += dice;
+        document.querySelector('#current-' + activePlayer).textContent = roundScore;
+    } else {
+        // Next player and reset
+        // ? ternary operator
+        // if activePlayer = 0 then activePlayer = 1 else activePlayer 0
+        activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+        roundScore = 0;
+
+        document.getElementById('current-0').textContent = '0';
+        document.getElementById('current-1').textContent = '0';
+
+        // toggle active class from player-0-panel class and toggle active to player-1-panel
+        document.querySelector('.player-0-panel').classList.toggle('active');
+        document.querySelector('.player-1-panel').classList.toggle('active');
+
+        // remove dice on new player and reset
+        document.querySelector('.dice').style.display = 'none';
+    }
 });
-
-
-
-
-
-
-
-
